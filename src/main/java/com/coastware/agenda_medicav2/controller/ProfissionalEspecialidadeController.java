@@ -1,5 +1,6 @@
 package com.coastware.agenda_medicav2.controller;
 
+import com.coastware.agenda_medicav2.dto.ProfissionalEspecialidadeDTO;
 import com.coastware.agenda_medicav2.model.ProfissionalEspecialidadeModel;
 import com.coastware.agenda_medicav2.service.ProfissionalEspecialidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,20 @@ public class ProfissionalEspecialidadeController {
 
     @PostMapping
     public ResponseEntity<ProfissionalEspecialidadeModel> criar(
-            @RequestBody ProfissionalEspecialidadeModel profissionalEspecialidade) {
+            @RequestBody ProfissionalEspecialidadeDTO dto) {
 
-        ProfissionalEspecialidadeModel novo = profissionalEspecialidadeService.criar(profissionalEspecialidade);
+        ProfissionalEspecialidadeModel novo = profissionalEspecialidadeService.criar(dto);
         return ResponseEntity.ok(novo);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProfissionalEspecialidadeModel> atualizar(
+            @PathVariable Long id,
+            @RequestBody ProfissionalEspecialidadeDTO dto) {
+
+        return profissionalEspecialidadeService.atualizar(id, dto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
@@ -36,15 +47,6 @@ public class ProfissionalEspecialidadeController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ProfissionalEspecialidadeModel> atualizar(
-            @PathVariable Long id,
-            @RequestBody ProfissionalEspecialidadeModel profissionalEspecialidade) {
-
-        return profissionalEspecialidadeService.atualizar(id, profissionalEspecialidade)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
