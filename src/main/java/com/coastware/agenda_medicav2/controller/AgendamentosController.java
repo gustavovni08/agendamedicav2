@@ -1,6 +1,7 @@
 package com.coastware.agenda_medicav2.controller;
 
 import com.coastware.agenda_medicav2.dto.AgendamentoDTO;
+import com.coastware.agenda_medicav2.dto.HorarioDisponivelDTO;
 import com.coastware.agenda_medicav2.model.AgendamentoModel;
 import com.coastware.agenda_medicav2.service.AgendamentosService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,7 @@ public class AgendamentosController {
 
     @PostMapping
     public ResponseEntity<AgendamentoModel> criarAgendamento(@RequestBody AgendamentoDTO dto) {
-        AgendamentoModel agendamento = agendamentosService.fromDTO(dto);
-        AgendamentoModel novoAgendamento = agendamentosService.criarAgendamento(agendamento);
+        AgendamentoModel novoAgendamento = agendamentosService.criarAgendamento(dto);
         return ResponseEntity.ok(novoAgendamento);
     }
 
@@ -34,6 +34,14 @@ public class AgendamentosController {
         return agendamentosService.buscarPorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/disponiveis/{profissionalEspecialidadeId}")
+    public ResponseEntity<List<HorarioDisponivelDTO>> getDisponiveis(
+            @PathVariable Long profissionalEspecialidadeId) {
+        List<HorarioDisponivelDTO> lista = agendamentosService
+                .obterHorariosDisponiveis(profissionalEspecialidadeId);
+        return ResponseEntity.ok(lista);
     }
 
     @PutMapping("/{id}")
