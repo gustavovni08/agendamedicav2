@@ -161,4 +161,10 @@ public class AgendamentosService {
     public void deletar(Long id) {
         agendamentoRepository.deleteById(id);
     }
+
+    public Long contarAgendamentosPorProfissional(Long profissionalId) {
+        return agendamentoRepository.countByProfissionalId(profissionalId);
+    }
+
+
 }

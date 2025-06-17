@@ -37,7 +37,8 @@ public class EspecialidadeController {
     @PutMapping("/{id}")
     public ResponseEntity<EspecialidadeModel> atualizarEspecialidade(
             @PathVariable Long id,
-            @RequestBody EspecialidadeModel especialidade) {
+            @RequestBody EspecialidadeModel especialidade
+    ) {
         return especialidadeService.atualizar(id, especialidade)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

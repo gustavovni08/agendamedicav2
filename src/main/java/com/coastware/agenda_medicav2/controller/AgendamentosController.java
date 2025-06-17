@@ -44,10 +44,19 @@ public class AgendamentosController {
         return ResponseEntity.ok(lista);
     }
 
+
+    @GetMapping("/profissional/{profissionalId}/count")
+    public ResponseEntity<Long> getCountAgendamentosPorProfissional(
+            @PathVariable Long profissionalId) {
+        Long count = agendamentosService.contarAgendamentosPorProfissional(profissionalId);
+        return ResponseEntity.ok(count);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<AgendamentoModel> atualizarAgendamento(
             @PathVariable Long id,
-            @RequestBody AgendamentoDTO dto) {
+            @RequestBody AgendamentoDTO dto
+    ) {
 
         AgendamentoModel agendamentoAtualizado = agendamentosService.fromDTO(dto);
         return agendamentosService.atualizar(id, agendamentoAtualizado)
